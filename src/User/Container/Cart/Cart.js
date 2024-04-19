@@ -1,6 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementQty, incrementQty, removeProduct } from "../../../Redux/slice/cart.slice";
+import {
+  decrementQty,
+  incrementQty,
+  removeProduct,
+} from "../../../Redux/slice/cart.slice";
+import { object, string, number, date, InferType } from "yup";
+import { useFormik } from "formik";
+import { TextField } from "@mui/material";
 
 function Cart(props) {
   const cart = useSelector((state) => state.cart);
@@ -31,8 +38,31 @@ function Cart(props) {
   };
 
   const handleRemove = (id) => {
-    dispatch(removeProduct(id))
-  }
+    dispatch(removeProduct(id));
+  };
+
+  let cartSchema = object({
+    coupon: number().required("Invalid Coupon Code").positive().integer(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      coupon: "",
+    },
+    validationSchema: cartSchema,
+    onSubmit: (values, { resetForm }) => {
+      console.log("dsfsfd", values);
+    //   if (edit) {
+    //     // dispatch(editReview(values));
+    //   } else {
+        // dispatch(addShopDetail(values));
+    //   }
+    //   resetForm();
+    },
+  });
+
+  const { handleBlur, handleChange, handleSubmit, values, touched, errors } =
+    formik;
 
   return (
     <div>
@@ -117,7 +147,7 @@ function Cart(props) {
                       <p className="mb-0 mt-4">{p.qty * p.price} $</p>
                     </td>
                     <td>
-                      <button 
+                      <button
                         onClick={() => handleRemove(p.id)}
                         className="btn btn-md rounded-circle bg-light border mt-4"
                       >
@@ -130,17 +160,26 @@ function Cart(props) {
             </table>
           </div>
           <div className="mt-5">
-            <input
-              type="text"
-              className="border-0 border-bottom rounded me-5 py-3 mb-4"
-              placeholder="Coupon Code"
-            />
-            <button
-              className="btn border-secondary rounded-pill px-4 py-3 text-primary"
-              type="button"
-            >
-              Apply Coupon
-            </button>
+            <form action="#" onSubmit={handleSubmit}>
+              <TextField
+                type="text"
+                name="coupon"
+                id="coupon"
+                className="border-0 border-bottom rounded me-5 py-3 mb-4"
+                placeholder="Coupon Code"
+                value={values.coupon} 
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={touched.coupon && errors.coupon ? true : false}
+                helperText={touched.coupon && errors.coupon ? errors.coupon : ""}
+              />
+              <button
+                className="btn border-secondary rounded-pill px-4 py-3 text-primary"
+                type="submit"
+              >
+                Apply Coupon
+              </button>
+            </form>
           </div>
           <div className="row g-4 justify-content-end">
             <div className="col-8" />

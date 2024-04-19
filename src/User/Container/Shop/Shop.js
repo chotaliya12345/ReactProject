@@ -23,7 +23,8 @@ function Shop(props) {
   const Cart = useSelector((state) => state.Cart);
   console.log(Cart);
 
-  const handalproduct = (id) => {
+  const handalproduct = (id, event) => {
+    event.preventDefault();
     console.log(id);
     dispatch(addToCart({ id, qty: 1 }));
   };
@@ -304,13 +305,15 @@ function Shop(props) {
                                 <p className="text-dark fs-5 fw-bold mb-0">
                                   $ {v.price} / kg
                                 </p>
-                                <Link
+                                <a
                                   href="#"
-                                  onClick={() => handalproduct(v.id)}
+                                  onClick={(event) =>
+                                    handalproduct(v.id, event)
+                                  }
                                   className="btn border border-secondary rounded-pill px-3 text-primary"
                                 >
                                   Add to cart
-                                </Link>
+                                </a>
                               </div>
                             </div>
                           </div>

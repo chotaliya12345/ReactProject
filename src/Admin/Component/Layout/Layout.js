@@ -17,6 +17,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LunchDiningOutlinedIcon from "@mui/icons-material/LunchDiningOutlined";
+import BrandingWatermarkSharpIcon from "@mui/icons-material/BrandingWatermarkSharp";
 import CategoryIcon from "@mui/icons-material/Category";
 import { NavLink } from "react-router-dom";
 import StreamIcon from "@mui/icons-material/Stream";
@@ -115,6 +116,12 @@ export default function Layout({ children }) {
       title: "Product",
       icon: <LunchDiningOutlinedIcon />,
       to: "/admin/product",
+    },
+    ,
+    {
+      title: "Coupon",
+      icon: <BrandingWatermarkSharpIcon />,
+      to: "/admin/coupon",
     },
   ];
 
