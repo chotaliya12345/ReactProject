@@ -87,6 +87,7 @@ function Coupon(props) {
     },
     validationSchema: couponSchema,
     onSubmit: (values, { resetForm }) => {
+      console.log(values);
       if (edit) {
         dispatch(editCoupon(values));
       } else {

@@ -8,17 +8,14 @@ const initialState = {
   error: null,
 };
 
-export const getCoupon = createAsyncThunk(
-  "coupon/getCoupon",
-  async (couponData) => {
-    try {
-      const response = await axios.get(BASE_URL + "coupon");
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+export const getCoupon = createAsyncThunk("coupon/getCoupon", async () => {
+  try {
+    const response = await axios.get(BASE_URL + "coupon");
+    return response.data;
+  } catch (error) {
+    throw error;
   }
-);
+});
 
 export const addCoupon = createAsyncThunk(
   "coupon/addCoupon",
@@ -46,9 +43,10 @@ export const deleteCoupon = createAsyncThunk(
 
 export const editCoupon = createAsyncThunk(
   "coupon/editCoupon",
-  async ({ id, newData }) => {
+  async ({ id, ...newData }) => {
     try {
       const response = await axios.put(BASE_URL + `coupon/${id}`, newData);
+
       return response.data;
     } catch (error) {
       throw error;
@@ -78,9 +76,13 @@ const couponSlice = createSlice({
       })
       .addCase(editCoupon.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.coupon.map((v) =>
-          v.id === action.payload.id ? action.payload : v
-        );
+        state.coupon.map((v) => {
+          if (v.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return v;
+          }
+        });
       });
   },
 });
