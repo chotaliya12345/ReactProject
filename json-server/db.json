@@ -138,5 +138,16 @@
       "review": "cxbvnbxvvcvc",
       "rating": "5"
     }
+  ],
+  "coupon": [
+    {
+      "id": "4412"
+    },
+    {
+      "id": "10d3",
+      "coupon": "uiop",
+      "per": 7,
+      "expiry": "2024-04-27"
+    }
   ]
 }
