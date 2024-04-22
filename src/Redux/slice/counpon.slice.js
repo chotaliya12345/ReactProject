@@ -41,18 +41,14 @@ export const deleteCoupon = createAsyncThunk(
   }
 );
 
-export const editCoupon = createAsyncThunk(
-  "coupon/editCoupon",
-  async ({ id, ...newData }) => {
-    try {
-      const response = await axios.put(BASE_URL + `coupon/${id}`, newData);
-
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+export const editCoupon = createAsyncThunk("coupon/update", async (data) => {
+  try {
+    const response = await axios.put(BASE_URL + "coupon/" + data.id, data);
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
   }
-);
+});
 
 const couponSlice = createSlice({
   name: "coupon",
@@ -75,8 +71,8 @@ const couponSlice = createSlice({
         );
       })
       .addCase(editCoupon.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.coupon.map((v) => {
+        console.log(action);
+        state.coupon = state.coupon.map((v) => {
           if (v.id === action.payload.id) {
             return action.payload;
           } else {
