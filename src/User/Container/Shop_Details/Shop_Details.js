@@ -11,20 +11,6 @@ function Shop_Details(props) {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  // const cart = useSelector((state) => state.cart);
-  // console.log(cart);
-
-  // const product = useSelector((state) => state.product);
-  // console.log(product);
-
-  // const productdata = product.product.find((v) => v.id === id);
-
-  // const cartData = cart.cart.filter((v) => v.pid === id);
-
-  // const qtyData = cartData.map((v) => v.qty);
-
-  // const fData = { ...productdata, qty: qtyData[0] };
-
   const handleCart = () => {
     dispatch(addToCart({ id, qty }));
   };

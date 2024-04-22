@@ -78,8 +78,8 @@ const couponSlice = createSlice({
       })
       .addCase(editCoupon.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.coupon.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+        state.coupon.map((v) =>
+          v.id === action.payload.id ? action.payload : v
         );
       });
   },

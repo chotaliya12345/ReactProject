@@ -12,7 +12,12 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
-import { addCoupon, deleteCoupon, editCoupon, getCoupon } from "../../../Redux/slice/counpon.slice";
+import {
+  addCoupon,
+  deleteCoupon,
+  editCoupon,
+  getCoupon,
+} from "../../../Redux/slice/counpon.slice";
 
 function Coupon(props) {
   const [open, setOpen] = React.useState(false);
@@ -23,9 +28,8 @@ function Coupon(props) {
   console.log(coupon);
 
   useEffect(() => {
-    dispatch(getCoupon())
-  }, [])
-
+    dispatch(getCoupon());
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,6 +37,8 @@ function Coupon(props) {
 
   const handleClose = () => {
     setOpen(false);
+    formik.resetForm();
+    setEdit(false);
   };
 
   const handleEdit = (data) => {
@@ -42,7 +48,7 @@ function Coupon(props) {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteCoupon(id))
+    dispatch(deleteCoupon(id));
   };
 
   const columns = [
@@ -81,9 +87,8 @@ function Coupon(props) {
     },
     validationSchema: couponSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
       if (edit) {
-        dispatch(editCoupon(values))
+        dispatch(editCoupon(values));
       } else {
         dispatch(addCoupon(values));
       }
