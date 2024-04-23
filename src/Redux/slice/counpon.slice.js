@@ -29,24 +29,21 @@ export const addCoupon = createAsyncThunk(
   }
 );
 
-export const deleteCoupon = createAsyncThunk(
-  "coupon/deleteCoupon",
-  async (id) => {
-    try {
-      const response = await axios.delete(BASE_URL + `coupon/${id}`);
-      return id;
-    } catch (error) {
-      throw error;
-    }
+export const deleteCoupon = createAsyncThunk("coupon/delete", async (id) => {
+  try {
+    await axios.delete(BASE_URL + "coupon/" + id);
+    return id;
+  } catch (error) {
+    throw error;
   }
-);
+});
 
-export const editCoupon = createAsyncThunk("coupon/update", async (data) => {
+export const editCoupon = createAsyncThunk("coupon/edit", async (data) => {
   try {
     const response = await axios.put(BASE_URL + "coupon/" + data.id, data);
     return response.data;
   } catch (error) {
-    console.log(error.message);
+    throw error;
   }
 });
 
@@ -65,13 +62,9 @@ const couponSlice = createSlice({
         state.coupon = action.payload;
       })
       .addCase(deleteCoupon.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.coupon = state.coupon.filter(
-          (item) => item.id !== action.payload
-        );
+        state.coupon = state.coupon.filter((v) => v.id !== action.payload);
       })
       .addCase(editCoupon.fulfilled, (state, action) => {
-        console.log(action);
         state.coupon = state.coupon.map((v) => {
           if (v.id === action.payload.id) {
             return action.payload;

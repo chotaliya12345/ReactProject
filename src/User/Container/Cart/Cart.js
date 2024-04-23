@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQty,
   incrementQty,
   removeProduct,
 } from "../../../Redux/slice/cart.slice";
-
+import { getCoupon } from "../../../Redux/slice/counpon.slice";
+import { useFormik } from "formik";
+import { object, string } from "yup";
+import { TextField } from "@mui/material";
 
 function Cart(props) {
   const cart = useSelector((state) => state.cart);
   const products = useSelector((state) => state.product);
+  const coupon = useSelector((state) => state.coupon);
+  console.log(coupon);
 
-  console.log(cart, products);
 
   const productData = cart.cart.map((v) => {
     const product = products.product.find((v1) => v1.id === v.pid);
@@ -19,11 +23,14 @@ function Cart(props) {
     return { ...product, qty: v.qty };
   });
 
-  console.log(productData);
 
   const subTotal = productData.reduce((acc, v) => acc + v.qty * v.price, 0);
   const Total = subTotal * 1.18;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCoupon());
+  }, []);
 
   const handleInc = (id) => {
     console.log(id);
@@ -39,6 +46,29 @@ function Cart(props) {
     dispatch(removeProduct(id));
   };
 
+  const handleCoupon = (data) => {
+    console.log(data);
+    if (data.coupon === coupon.coupon && data.date === coupon.expiry) {
+
+    }
+  }
+
+  let cartSchema = object({
+    cart: string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      cart: "",
+    },
+    validationSchema: cartSchema,
+    onSubmit: (values) => {
+      handleCoupon({...values, date:new Date().toLocaleDateString()})
+    },
+  });
+
+  const { handleBlur, handleChange, handleSubmit, values, touched, errors } =
+    formik;
   return (
     <div>
       {/* Single Page Header start */}
@@ -135,17 +165,27 @@ function Cart(props) {
             </table>
           </div>
           <div className="mt-5">
-            <input
-              type="text"
-              class="border-0 border-bottom rounded me-5 py-3 mb-4"
-              placeholder="Coupon Code"
-            />
-            <button
-              class="btn border-secondary rounded-pill px-4 py-3 text-primary"
-              type="button"
-            >
-              Apply Coupon
-            </button>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                type="text"
+                name="cart"
+                class="border-0 border-bottom rounded me-5 py-3 mb-4"
+                placeholder="Coupon Code"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.coupon}
+                error={touched.coupon && errors.coupon ? true : false}
+                helperText={
+                  touched.coupon && errors.coupon ? errors.coupon : ""
+                }
+              />
+              <button
+                class="btn border-secondary rounded-pill px-4 py-3 text-primary"
+                type="submit"
+              >
+                Apply Coupon
+              </button>
+            </form>
           </div>
           <div className="row g-4 justify-content-end">
             <div className="col-8" />
