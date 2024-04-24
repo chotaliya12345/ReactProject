@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQty,
@@ -8,14 +8,19 @@ import {
 import { getCoupon } from "../../../Redux/slice/counpon.slice";
 import { useFormik } from "formik";
 import { object, string } from "yup";
-import { TextField } from "@mui/material";
 
 function Cart(props) {
+  const [discount, setDiscount] = useState(0);
   const cart = useSelector((state) => state.cart);
   const products = useSelector((state) => state.product);
   const coupon = useSelector((state) => state.coupon);
   console.log(coupon);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCoupon());
+  }, []);
 
   const productData = cart.cart.map((v) => {
     const product = products.product.find((v1) => v1.id === v.pid);
@@ -23,14 +28,15 @@ function Cart(props) {
     return { ...product, qty: v.qty };
   });
 
-
   const subTotal = productData.reduce((acc, v) => acc + v.qty * v.price, 0);
-  const Total = subTotal * 1.18;
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getCoupon());
-  }, []);
+  // const totalDiscount = subTotal * (discount / 100);
+  // const Total = subTotal - totalDiscount + 3;
+
+  // console.log(Total, totalDiscount);
+
+  const discountVal = (subTotal + 3) * (discount / 100);
+  const Total = subTotal - discountVal;
 
   const handleInc = (id) => {
     console.log(id);
@@ -48,22 +54,53 @@ function Cart(props) {
 
   const handleCoupon = (data) => {
     console.log(data);
-    if (data.coupon === coupon.coupon && data.date === coupon.expiry) {
+    let flag = 0;
+    let discount = 0;
+    coupon.coupon.map((v) => {
+      if (v.coupon === data.coupon) {
+        const currentDate = new Date();
 
+        const expiryDate = new Date(v.expiry);
+
+        if (currentDate <= expiryDate) {
+          flag = 1;
+          discount = v.per;
+          setDiscount(discount);
+        } else {
+          flag = 2;
+        }
+      }
+    });
+
+    if (flag === 0) {
+      formik.setFieldError("coupon", "Invaliad coupon");
+    } else if (flag === 1) {
+      formik.setFieldError(
+        "coupon",
+        "Coupon applied successfully."`You got ${discount}% discount`
+      );
+    } else if (flag === 2) {
+      formik.setFieldError("coupon", "Coupon expired.");
     }
-  }
 
-  let cartSchema = object({
-    cart: string().required(),
+    if (Total >= 500) {
+      Shipping = 100;
+    }
+  };
+
+  let couponSchema = object({
+    coupon: string().required("Please enter coupon"),
   });
 
   const formik = useFormik({
     initialValues: {
-      cart: "",
+      coupon: "",
     },
-    validationSchema: cartSchema,
-    onSubmit: (values) => {
-      handleCoupon({...values, date:new Date().toLocaleDateString()})
+    validationSchema: couponSchema,
+    onSubmit: (values, { resetForm }) => {
+      handleCoupon(values);
+
+      // resetForm();
     },
   });
 
@@ -166,19 +203,19 @@ function Cart(props) {
           </div>
           <div className="mt-5">
             <form onSubmit={handleSubmit}>
-              <TextField
+              <input
+                name="coupon"
                 type="text"
-                name="cart"
                 class="border-0 border-bottom rounded me-5 py-3 mb-4"
                 placeholder="Coupon Code"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.coupon}
-                error={touched.coupon && errors.coupon ? true : false}
-                helperText={
-                  touched.coupon && errors.coupon ? errors.coupon : ""
-                }
               />
+              {errors.coupon && touched.coupon ? (
+                <span className="error">{errors.coupon}</span>
+              ) : null}
+              <br />
               <button
                 class="btn border-secondary rounded-pill px-4 py-3 text-primary"
                 type="submit"
@@ -202,14 +239,18 @@ function Cart(props) {
                   <div className="d-flex justify-content-between">
                     <h5 className="mb-0 me-4">Shipping</h5>
                     <div className>
-                      <p className="mb-0">Flat rate: $1.18</p>
+                      <p className="mb-0">Flat rate: $3</p>
                     </div>
                   </div>
                   <p className="mb-0 text-end">Shipping to Ukraine.</p>
+                  <div className="d-flex justify-content-between mb-4">
+                    <h5 className="mb-0 me-4">dicount:{discount}%</h5>
+                    <p className="mb-0">{discountVal}</p>
+                  </div>
                 </div>
                 <div className="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                   <h5 className="mb-0 ps-4 me-4">Total</h5>
-                  <p className="mb-0 pe-4">{Total}</p>
+                  <p className="mb-0 pe-4">${Total.toFixed(2)}</p>
                 </div>
                 <button
                   className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
