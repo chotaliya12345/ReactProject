@@ -294,7 +294,7 @@
 }
 
 .fruite .fruite-categorie .fruite-name a:hover {
-    /* color: var(--bs-secondary); */
+    color: var(--bs-secondary);
 }
 
 .fruite .fruite-item :hover > img{
@@ -504,4 +504,14 @@
     color: red;
     font-size: 15px;
     padding-top: 0;
+}
+
+.dark {
+    background: black !important;
+    color: grey !important;
+}
+
+.light {
+    background: white !important;
+    color: black !important;
 }

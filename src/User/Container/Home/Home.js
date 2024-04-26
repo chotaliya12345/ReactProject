@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useSelector } from "react-redux";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 function Home(props) {
   const facilities = useSelector((state) => state.facilities);
-  
+
+  const themeContext = useContext(ThemeContext);
+  console.log(themeContext);
 
   let vegetableOwlCarousel = {
     autoplay: true,
@@ -109,7 +112,11 @@ function Home(props) {
                   <div className="carousel-item active rounded">
                     <img
                       src="img/hero-img-1.png"
-                      className="img-fluid w-100 h-100 bg-secondary rounded"
+                      className={`img-fluid w-100 h-100 rounded ${
+                        themeContext.theme === "dark"
+                          ? "bg-dark"
+                          : "bg-secondary"
+                      }`}
                       alt="First slide"
                     />
                     <a href="#" className="btn px-4 py-2 text-white rounded">
@@ -163,7 +170,9 @@ function Home(props) {
           <div className="row g-4">
             {facilities.facilities.map((v) => (
               <div className="col-md-6 col-lg-3">
-                <div className="featurs-item text-center rounded bg-light p-4">
+                <div
+                  className={`featurs-item text-center rounded bg-light p-4 ${themeContext.theme}`}
+                >
                   <div className="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
                     <i className="fas fa-car-side fa-3x text-white" />
                   </div>
@@ -1288,7 +1297,13 @@ function Home(props) {
           </div>
           <div className="row g-4">
             <div className="col-lg-6 col-xl-4">
-              <div className="p-4 rounded bg-light">
+              <div
+                className={`p-4 rounded ${
+                  themeContext.theme === "dark"
+                    ? "border border-warning"
+                    : "bg-light"
+                }`}
+              >
                 <div className="row align-items-center">
                   <div className="col-6">
                     <img
@@ -1321,7 +1336,13 @@ function Home(props) {
               </div>
             </div>
             <div className="col-lg-6 col-xl-4">
-              <div className="p-4 rounded bg-light">
+              <div
+                className={`p-4 rounded ${
+                  themeContext.theme === "dark"
+                    ? "border border-warning"
+                    : "bg-light"
+                }`}
+              >
                 <div className="row align-items-center">
                   <div className="col-6">
                     <img
@@ -1354,7 +1375,13 @@ function Home(props) {
               </div>
             </div>
             <div className="col-lg-6 col-xl-4">
-              <div className="p-4 rounded bg-light">
+              <div
+                className={`p-4 rounded ${
+                  themeContext.theme === "dark"
+                    ? "border border-warning"
+                    : "bg-light"
+                }`}
+              >
                 <div className="row align-items-center">
                   <div className="col-6">
                     <img
@@ -1387,7 +1414,13 @@ function Home(props) {
               </div>
             </div>
             <div className="col-lg-6 col-xl-4">
-              <div className="p-4 rounded bg-light">
+              <div
+                className={`p-4 rounded ${
+                  themeContext.theme === "dark"
+                    ? "border border-warning"
+                    : "bg-light"
+                }`}
+              >
                 <div className="row align-items-center">
                   <div className="col-6">
                     <img
@@ -1420,7 +1453,13 @@ function Home(props) {
               </div>
             </div>
             <div className="col-lg-6 col-xl-4">
-              <div className="p-4 rounded bg-light">
+              <div
+                className={`p-4 rounded ${
+                  themeContext.theme === "dark"
+                    ? "border border-warning"
+                    : "bg-light"
+                }`}
+              >
                 <div className="row align-items-center">
                   <div className="col-6">
                     <img
@@ -1453,7 +1492,13 @@ function Home(props) {
               </div>
             </div>
             <div className="col-lg-6 col-xl-4">
-              <div className="p-4 rounded bg-light">
+              <div
+                className={`p-4 rounded ${
+                  themeContext.theme === "dark"
+                    ? "border border-warning"
+                    : "bg-light"
+                }`}
+              >
                 <div className="row align-items-center">
                   <div className="col-6">
                     <img

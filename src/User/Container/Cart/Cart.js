@@ -56,6 +56,7 @@ function Cart(props) {
     console.log(data);
     let flag = 0;
     let discount = 0;
+    let Shipping = 0;
     coupon.coupon.map((v) => {
       if (v.coupon === data.coupon) {
         const currentDate = new Date();
