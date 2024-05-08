@@ -21,6 +21,7 @@ import BrandingWatermarkSharpIcon from "@mui/icons-material/BrandingWatermarkSha
 import CategoryIcon from "@mui/icons-material/Category";
 import { NavLink } from "react-router-dom";
 import StreamIcon from "@mui/icons-material/Stream";
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 
 const drawerWidth = 240;
 
@@ -117,11 +118,20 @@ export default function Layout({ children }) {
       icon: <LunchDiningOutlinedIcon />,
       to: "/admin/product",
     },
-    ,
     {
       title: "Coupon",
       icon: <BrandingWatermarkSharpIcon />,
       to: "/admin/coupon",
+    },
+    {
+      title: "ContextC",
+      icon: <HeartBrokenIcon />,
+      to: "/admin/contextcrud",
+    },
+    {
+      title: "Contact",
+      icon: <HeartBrokenIcon />,
+      to: "/admin/contact",
     },
   ];
 
@@ -149,7 +159,7 @@ export default function Layout({ children }) {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose}> 
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (

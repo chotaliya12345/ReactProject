@@ -152,5 +152,33 @@
       "per": 5,
       "expiry": "2024-04-27"
     }
+  ],
+  "crud": [
+    {
+      "id": "e159",
+      "name": "abhishek",
+      "number": 2222,
+      "country": "jjjjj"
+    }
+  ],
+  "contact": [
+    {
+      "id": "251b",
+      "address": "kamrej",
+      "email": "Abhishekchotaliya@gmail.com",
+      "telephone": 9712913721
+    },
+    {
+      "id": "b61f",
+      "address": "Surat",
+      "email": "abhishekchotaliya005@gmail.com",
+      "telephone": 689456631
+    },
+    {
+      "id": "ff5d",
+      "address": "cbcvbvbv",
+      "email": "abhishekchotaliya005@gmail.com",
+      "telephone": 9786354634
+    }
   ]
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { object, string, number, date, InferType } from "yup";
 import { useFormik } from "formik";
+import Input from "../Ui/Input/Input";
+import Button from "../Ui/Button/Button";
 
 function Contact(props) {
   let contactSchema = object({
@@ -79,7 +81,7 @@ function Contact(props) {
               </div>
               <div className="col-lg-7">
                 <form onSubmit={handleSubmit}>
-                  <input
+                  <Input
                     type="text"
                     name="name"
                     className="w-100 form-control border-0 py-3 mb-4"
@@ -87,11 +89,12 @@ function Contact(props) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.name}
+                    errorText={touched.name && errors.name ? errors.name : ""}
                   />
-                  <span className="error">
+                  {/* <span className="error">
                     {touched.name && errors.name ? errors.name : ""}
-                  </span>
-                  <input
+                  </span> */}
+                  <Input
                     type="email"
                     name="email"
                     className="w-100 form-control border-0 py-3 mb-4"
@@ -117,12 +120,11 @@ function Contact(props) {
                   <span className="error">
                     {touched.message && errors.message ? errors.message : ""}
                   </span>
-                  <button
-                    className="w-100 btn form-control border-secondary py-3 bg-white text-primary "
+                  <Button
                     type="submit"
                   >
                     Submit
-                  </button>
+                  </Button>
                 </form>
               </div>
               <div className="col-lg-5">

@@ -8,6 +8,7 @@ import {
 import { getCoupon } from "../../../Redux/slice/counpon.slice";
 import { useFormik } from "formik";
 import { object, string } from "yup";
+import Button from "../Ui/Button/Button";
 
 function Cart(props) {
   const [discount, setDiscount] = useState(0);
@@ -253,12 +254,9 @@ function Cart(props) {
                   <h5 className="mb-0 ps-4 me-4">Total</h5>
                   <p className="mb-0 pe-4">${Total.toFixed(2)}</p>
                 </div>
-                <button
-                  className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                  type="button"
-                >
+                <Button btnDisable={true}>
                   Proceed Checkout
-                </button>
+                </Button>
               </div>
             </div>
           </div>
